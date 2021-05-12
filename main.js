@@ -2,69 +2,73 @@ let foodToSearch = null;
 
 const YOUR_APP_ID = "f39c24c4";
 const YOUR_APP_KEY = "0a066b9a3ba3678795fc901c8521f442";
-
 const requestUrl = `https://api.edamam.com/search?q=kale&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}`;
 
-console.log(requestUrl);
-
-
+async function fetchRecipe(food) {
+  const request = await fetch(
+    `https://api.edamam.com/search?q=${food}&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}`
+  );
+  let data = await request.json();
+  console.log(data);
+  return data;
+}
 
 function handleRecipeClick() {
   foodToSearch = document.querySelector("#food-input").value;
 
-
-  fetchRecipe(foodToSearch);
-}
-
-function handleFoodChange() {}
-
-  findRecipes(foodToSearch).then((data) => {
-    console.log(data);
-    let recipes = data.hits;
-    let results = document.getElementById("results");
-    let resultsFound = document.getElementById("resultsFound");
+  fetchRecipe(foodToSearch).then((data) => {
+    // creates another function with parameter (data) to run AFTER await fetch is complete on line 13
+    let resultsFound = document.getElementById("resultsFound"); // span created to list result count
     resultsFound.innerHTML = data.count;
-    results.innerHTML = "";
-    console.log(results);
+
+    let hits = data.hits;
+    const recipe_section = document.getElementById("recipe-section");
+    recipe_section.innerHTML = "";
+
     for (let i = 0; i < 10; i++) {
-      let li = document.createElement("li");
-      let a = document.createElement("a");
-      let image = document.createElement("img");
-      a.href = recipes[i].recipe.url;
-      image.src = recipes[i].recipe.image;
-      a.text = recipes[i].recipe.label;
-      // a.appendChild(image)
-      li.appendChild(a);
-      li.appendChild(image);
-      results.appendChild(li);
+      // main div added to body
+      const cardDiv = document.createElement("div");
+      cardDiv.classList.add("flex-card-div");
+      recipe_section.appendChild(cardDiv);
+
+      const anchorText = document.createElement("a");
+      anchorText.id = "recipe-link";
+      anchorText.href = hits[i].recipe.url;
+      anchorText.text = hits[i].recipe.label;
+
+      const image = document.createElement("img");
+      image.classList.add("recipe-image");
+      image.src = hits[i].recipe.image;
+
+      // // child div for image
+      const imageDiv = document.createElement("div");
+      imageDiv.classList.add("flex-list-items");
+
+      const infoDiv = document.createElement("div");
+      infoDiv.classList.add("food-info-div");
+      const calorie_span = document.createElement("span");
+      calorie_span.classList.add("food-info-span");
+      calorie_span.innerHTML = `Calories: ${Math.floor(
+        hits[i].recipe.calories
+      )}`;
+
+      const serving_span = document.createElement("span");
+      serving_span.classList.add("food-info-span");
+      serving_span.innerHTML = `Serves: ${hits[i].recipe.yield}`;
+
+      const time_span = document.createElement("span");
+      time_span.classList.add("food-info-span");
+      time_span.innerHTML = `Total Time: ${hits[i].recipe.totalTime} mins`;
+
+      imageDiv.appendChild(image);
+      imageDiv.appendChild(anchorText);
+      cardDiv.appendChild(imageDiv);
+
+      infoDiv.appendChild(calorie_span);
+      infoDiv.appendChild(serving_span);
+      infoDiv.appendChild(time_span);
+
+      cardDiv.appendChild(infoDiv);
     }
   });
-  
-
-async function findRecipes(ingredient) {
-  const request = await fetch(
-    `https://api.edamam.com/search?q=${ingredient}&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}`
-  );
-  let data = await request.json();
-  return data;
 }
-
-//   recipeLabel.href = data.hits[0].recipe.url;
-// recipeLabel.innerHTML = data.hits[0].recipe.url
-
-
-
-// async function fetchRecipe(food) {
-//   foodToSearch = document.querySelector("#food-input").value;
-//   const request = await fetch(
-//     `https://api.edamam.com/search?q=${foodToSearch}&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}`
-//   );
-//   const data = await request.json();
-//   console.log(data);
-//   let recipeLabel = document.querySelector("#recipe-link");
-
-//   for (let i = 0; i < 10; i++) {
-//     recipeLabel.href = data.hits[i].recipe.url;
-//     recipeLabel.innerHTML = data.hits[i].recipe.label;
-//   }
-// }
