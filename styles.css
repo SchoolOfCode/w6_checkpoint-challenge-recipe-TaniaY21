@@ -6,7 +6,6 @@
   flex-wrap: wrap;
   flex-direction: column;
   margin: 10px;
-  
 }
 
 /* image and a tag div  */
@@ -14,12 +13,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-}
-
-.food-info-div {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
 }
 
 .recipe-link {
@@ -33,9 +26,25 @@
   padding: 20px;
 }
 
-/* .inredient-list{
-  display:
-} */
+.food-info-div {
+  padding: 0px 15px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.food-info-span {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.inredient-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px 10px;
+}
 /* 
 li {
   border: 5px blue dotted;
