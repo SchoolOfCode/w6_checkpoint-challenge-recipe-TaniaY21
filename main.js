@@ -58,17 +58,32 @@ function handleRecipeClick() {
 
       const time_span = document.createElement("span");
       time_span.classList.add("food-info-span");
-      time_span.innerHTML = `Total Time: ${hits[i].recipe.totalTime} mins`;
+      let cookingTime = hits[i].recipe.totalTime
+        ? `${hits[i].recipe.totalTime} mins`
+        : "NA";
+      time_span.innerHTML = `Total Time: ${cookingTime}`;
+
+      const ul = document.createElement("ul");
+      ul.classList.add("inredient-list");
+
+      let ingredientLines = hits[i].recipe.ingredientLines;
+      // console.log(ingredientLines[0])
+      for (let i = 0; i < ingredientLines.length; i++) {
+        const li = document.createElement("li");
+        li.innerHTML = ingredientLines[i];
+        ul.appendChild(li);
+      }
+      infoDiv.appendChild(ul);
 
       imageDiv.appendChild(image);
       imageDiv.appendChild(anchorText);
       cardDiv.appendChild(imageDiv);
-
       infoDiv.appendChild(calorie_span);
       infoDiv.appendChild(serving_span);
       infoDiv.appendChild(time_span);
-
       cardDiv.appendChild(infoDiv);
     }
   });
 }
+
+
