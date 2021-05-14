@@ -3,20 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>Fetch</title>
   </head>
   <body>
-    <section id="recipe-section">
+    <body>
+      <section class="search-section">
       <h2 class="section-heading">Welcome to the Recipe Finder!</h2>
       <input
         aria-label="food-input"
         id="food-input"
-        onchange="handleFoodChange()"
+        onchange="handleRecipeClick()"
       />
-      <button id="recipe-button" onclick="handleRecipeClick()">
+      <button onclick= "handleRecipeClick()" id="recipe-button">
         Give me a recipe!
       </button>
-      <a id="recipe-label"></a>
+      <p>Results found: <span id="resultsFound"> </span></p>
+      </section>
+  
+      <section id="recipe-section">
+        <!-- divs created here dynamically via JS  -->
     </section>
     <script src="./main.js"></script>
   </body>
